@@ -1,0 +1,352 @@
+DATABASE D:\Geokemi\Glaciations\GAP\Geochemistry\Weathering Model\Inverse model\wateq4f_3.7.3.dat
+TITLE .
+      ----
+      Inverse modelling of steams in Kangerlussuaq
+      soln.2 is meltwater (pure H2O - no CO2 - no gypsum)
+      soln.1 is stream water ST0114
+      soln.11 is stream water ST0114 corrected for marine aerosol
+      ----
+KNOBS
+	 -pe_step_size	2
+	 -step_size		2
+	 -iterations	200
+	 -diagonal_scale	true
+
+SOLUTION_SPECIES
+    H2O + .01e- = H2O-0.01
+	log_k -9
+
+SELECTED_OUTPUT 1
+    -file                 Kangerlussuaq_Inv-Model_ST0114.txt
+    -reset                false
+    -solution             true
+    -pH                   true
+    -temperature          true
+    -alkalinity           true
+    -ionic_strength       true
+    -charge_balance       true
+    -totals               C  Na K Mg Ca Si Cl S(6) Al Fe
+    -inverse_modeling     true
+
+# in order to calculate mass-balances of H+
+# all reactions are in terms of HCO3-, Al(OH)4-, Fe(OH)3 and H4SiO4
+PHASES
+Fe(OH)3(a)
+	Fe(OH)3  = Fe(OH)3
+        log_k  -7.67 # = 4.891 + (-12.56)
+SiO2	# Chalcedony
+      SiO2 + 2H2O = H4SiO4 
+      log_k           -3.55
+      delta_h 4.72 kcal
+      -analytical     -0.09   0.0     -1032.0         0.0     0.0
+O2(g)
+      #   2H2O = O2 + 4H+ + 4e- 
+      #   log_k           -86.08
+      #   delta_h 134.79 kcal
+      O2 = O2                                                                  
+      log_k    -2.960
+      delta_h  -1.844 kcal
+Pyrite
+        #   FeS2 + 3.5 O2 + H2O = Fe+2 + 2 SO4-2 + 2 H+
+        #       Fe+2 = Fe+3 + e-
+        #       0.25 O2 + H+ + e- = 0.5 H2O
+        #       Fe+3 + 3H2O = Fe(OH)3 + 3H+
+        #       Fe+2 + 0.25 O2 + 2.5 H2O = Fe(OH)3 + 2 H+
+      FeS2 + 3.75 O2 + 3.5 H2O = Fe(OH)3 + 2 SO4-2 + 4 H+
+      log_k 0
+CO2(g)
+      CO2 + H2O  =  H+ + HCO3-   
+      log_k   -7.82  #  = -1.468-(+16.681)+(+10.329)
+	delta_H  -2.599  # = -4.776-(-5.738)+(-3.561)
+Gypsum
+	CaSO4:2H2O = Ca+2 + SO4-2 + 2 H2O
+        log_k           -4.58
+        delta_h -0.109 kcal
+SeaWater
+	Cl5.66(SO4)0.293Na4.853K0.105Ca0.106Mg0.55(HCO3)0.024 = 5.66 Cl- + 0.293 SO4-2 + 0.024 HCO3- + 4.853 Na+ + 0.105 K+ + 0.106 Ca+2 + 0.55 Mg+2
+	log_k	0
+#Calcite
+#	CaCO3 + H+ = Ca+2 + HCO3-
+#          CaCO3 = Ca+2 + CO3-2 
+#          H+ + CO3-2 = HCO3- 
+#        log_k  1.849 # = -8.48 + 10.329
+#        delta_h -5.858 kcal # = -2.297 + (-3.561)
+Hornblende
+	#(Ca1.75K0.3)(Mg1.8Fe2.8Al0.4)(Al1.9Si6.1)O22(OH)2 + 7.4 H+ + 0.275 O2 + 9.4 H2O = 0.3 K+ + 1.75 Ca+2 + 1.8 Mg+2 + 2.8 Fe(OH)3 + 3.8 H4SiO4 + 1.15 Al2Si2O5(OH)4
+	(Ca1.75K0.3)(Mg1.8Fe2.8Al0.4)(Al1.9Si6.1)O22(OH)2 + 5.1 H+ + 0.275 O2 + 17.45 H2O = 0.3 K+ + 1.75 Ca+2 + 1.8 Mg+2 + 2.8 Fe(OH)3 + 2.3 Al(OH)4- + 6.1 H4SiO4
+	log_k	0
+Epidote
+	#Ca2Al2Fe(SiO4)3OH + 4 H+ + 3 H2O = 2 Ca+2 + Fe(OH)3 + Al2Si2O5(OH)4 + H4SiO4
+	Ca2Al2Fe(SiO4)3OH + 2 H+ + 10 H2O = 2 Ca+2 + Fe(OH)3 + 2 Al(OH)4- + 3 H4SiO4
+	log_k	0
+Plag_75
+	#Na0.75Ca0.25Al1.25Si2.75O8 + 3.625 H2O + 1.25 H+ = 0.75 Na+ + 0.25 Ca+2 + 0.625 Al2Si2O5(OH)4 + 1.5 H4SiO4
+	Na0.75Ca0.25Al1.25Si2.75O8 + 8 H2O = 0.75 Na+ + 0.25 Ca+2 + 1.25 Al(OH)4- + 2.75 H4SiO4
+	log_k	0
+Orthoclase  # K-feldspar
+	# KAlSi3O8 + 4.5H2O + H+ = K+ + 0.5 Al2Si2O5(OH)4 + 2 H4SiO4
+	KAlSi3O8 + 8H2O = K+ + Al(OH)4- + 3 H4SiO4
+	log_k	0
+Kaolinite
+      #	Al2Si2O5(OH)4 + 6H+ = 2Al+3 + 2 H4SiO4 + H2O 
+      #	  log_k  7.435
+      #	  delta_h -35.3 kcal
+      #	Al+3 + 4H2O = Al(OH)4- + 4H+ 
+      #	   log_k           -22.7
+      #	   delta_h 42.3 kcal
+      Al2Si2O5(OH)4 + 7 H2O = 2 H+ + 2 Al(OH)4- + 2 H4SiO4
+         log_k  -37.965
+         delta_h 49.3 kcal
+#Biotite
+#	K(MgFe2)AlSi3O10(OH)2 + 7H+ + 3H2O = K+ + Mg+2 + 2 Fe+2 + Al(OH)3 + 3H4SiO4
+#	log_k	0
+#Vermiculite
+#	(MgFe2)AlSi3O10(OH)2:4H2O + 4H+ + 2 H2O = Mg+2 + Fe+2 + Fe(OH)3 + Al(OH)3 + 3H4SiO4
+#	log_k	0
+Biot2Verm
+	K + H+ + 0.25 O2 = K+ + 0.5 H2O
+	log_k	0
+#Chlorite14A
+#	Mg5Al2Si3O10(OH)8 + 10 H+ = 5 Mg+2 + 2 Al(OH)3 + 3 H4SiO4
+#	log_k	0
+END
+
+TITLE .
+      ----
+      soln.2 is meltwater (pure H2O - no CO2 - no gypsum)
+      ----
+SOLUTION 2 Meltwater
+	temp	5
+	pH	7	charge
+	pe	13.
+	redox	pe
+	units	umol/kgw
+	Alkalinity	0
+	Na	1.00E-10
+	K	1.00E-10
+	Mg	1.00E-10
+	Ca	1.00E-10
+	Si	1.00E-10
+      Fe    1.00E-10
+      Al    1.00E-10
+	Cl	1.00E-10
+	S(6)	1.00E-10
+	  -water	1	# kg
+SAVE solution 2
+END
+
+TITLE .
+      ----
+      soln.1 is stream water ST0114
+      ----
+SOLUTION 1 ST0114
+	temp	8.7
+	pH	7.24
+	pe	5.
+	redox	pe
+	units	umol/kgw
+      Al	1.5e-6
+	Alkalinity	295.0
+	Ca	218.8
+	Cl	16.64
+	Na	31.58
+      Fe    5e-7
+	K	50.9
+	Mg	69.11
+	S(6)	159.28
+	Si	81.54
+	  -water	1	# kg
+SAVE solution 1
+END
+
+TITLE .
+      ----
+      soln.11 is stream water ST0114 corrected for marine aerosol
+      ----
+SOLUTION 11 ST0114 corrected for marine aerosol
+	temp	8.7
+	pH	7.24
+	pe	5.
+	redox	pe
+	units	umol/kgw
+      Al	1.5e-6
+	Alkalinity	294.93
+	Ca	218.51
+	Na	17.3
+      Fe    5e-7
+	K	50.58
+	Mg	67.49
+	S(6)	158.42
+	Si	81.54
+	  -water	1	# kg
+SAVE solution 11
+END
+
+TITLE .
+      ----
+      Inverse model of seawater-corrected ST0114 from pure H2O
+      Pyrite+O2 + CO2 as acid sources
+      Gypsum as source
+      ----
+INVERSE_MODELING
+  -multiple_precision false
+  -mineral_water	false
+#  -minimal
+  -ranges
+  -solutions	2	11
+  -balance
+	pH	0.2  # uncertainties all solns for pure water and for final soln
+      Alkalinity  0.01 # uncertainty 1% for all solns
+  -uncertainty	0.03 # 3% uncertainty in all solns
+  -phases
+	CO2(g)	dis
+	Pyrite	dis
+	Plag_75	dis
+	Orthoclase	dis
+	Epidote	dis
+      Hornblende  dis
+	Calcite	dis
+	Kaolinite	pre
+	SiO2		pre
+	O2(g)		dis
+	Fe(OH)3(a)	pre
+	Gypsum      dis
+#     Biot2Verm     dis
+END
+
+TITLE .
+      ----
+      Forward model (1) of seawater-corrected ST0114 from pure H2O
+      Pyrite+O2 and CO2 as acid sources
+      Calcite dissolves
+      No Gypsum
+      ----
+USE solution 2
+EQUILIBRIUM_PHASES # may precipitate
+    O2(g)		-0.677781	1
+    Calcite		0	0
+    Kaolinite	0	0
+    Chalcedony	0	0
+    Fe(OH)3(a)	0	0
+    Gypsum		0	0
+REACTION 1 # Add acids, feldspar and calcite
+    Pyrite		0.081586
+    O2(g)         0.315950
+    CO2		0.200910
+    Plag_75		0.023067
+    Orthoclase	0.039669
+#    Epidote       0.000000
+    Hornblende    0.036370
+    Calcite		0.142540
+	1.	millimoles
+END
+
+TITLE .
+      ----
+      Forward model (2) of seawater-corrected ST0114 from pure H2O
+      Pyrite+O2 + CO2 as acid sources
+      Calcite dissolves (Intermediate amount)
+      No Gypsum
+      ----
+USE solution 2
+EQUILIBRIUM_PHASES # may precipitate
+    O2(g)		-0.677781	1
+    Calcite		0	0
+    Kaolinite	0	0
+    Chalcedony	0	0
+    Fe(OH)3(a)	0	0
+    Gypsum		0	0
+REACTION 1 # Add acids, feldspar and calcite
+    Pyrite		0.081586
+    O2(g)         0.295735
+    CO2		0.272180
+    Plag_75		0.023067
+    Orthoclase	0.039669
+    Epidote       0.035248
+    Hornblende    0.036370
+    Calcite		0.071270
+	1.	millimoles
+END
+
+TITLE .
+      ----
+      Forward model (3) of seawater-corrected ST0114 from pure H2O
+      Pyrite+O2 + CO2 as acid sources
+      No Calcite
+      No Gypsum
+      ----
+USE solution 2
+EQUILIBRIUM_PHASES # may precipitate
+    O2(g)		-0.677781	1
+    Calcite		0	0
+    Kaolinite	0	0
+    Chalcedony	0	0
+    Fe(OH)3(a)	0	0
+    Gypsum		0	0
+REACTION 1 # Add acids, feldspar and calcite
+    Pyrite		0.081586
+    O2(g)         0.315950
+    CO2		0.343450
+    Plag_75		0.023067
+    Orthoclase	0.039669
+    Epidote       0.070496
+    Hornblende    0.036370
+#   Calcite		0.000000
+	1.	millimoles
+END
+
+TITLE .
+      ----
+      Forward model (4) of seawater-corrected ST0114 from pure H2O
+      Pyrite+O2 + CO2 as acid sources
+      Calcite dissolves (Intermediate amount)
+      Gypsum dissolves  (Intermediate amount)
+      ----
+USE solution 2
+EQUILIBRIUM_PHASES # may precipitate
+    O2(g)		-0.677781	1
+    Calcite		0	0
+    Kaolinite	0	0
+    Chalcedony	0	0
+    Fe(OH)3(a)	0	0
+    Gypsum		0	0
+REACTION 1 # Add acids, feldspar and calcite
+    Pyrite		0.046726
+    O2(g)         0.173725
+    CO2		0.272180
+    Plag_75		0.023067
+    Orthoclase	0.039669
+    Epidote       0.
+    Hornblende    0.036370
+    Calcite		0.071270
+    Gypsum        0.069720
+	1.	millimoles
+END
+
+TITLE .
+      ----
+      Forward model (5) of seawater-corrected ST0114 from pure H2O
+      Pyrite+O2 + CO2 as acid sources
+      No Calcite
+      Gypsum dissolves  (Max amount)
+      ----
+USE solution 2
+EQUILIBRIUM_PHASES # may precipitate
+    O2(g)		-0.677781	1
+    Calcite		0	0
+    Kaolinite	0	0
+    Chalcedony	0	0
+    Fe(OH)3(a)	0	0
+    Gypsum		0	0
+REACTION 1 # Add acids, feldspar and calcite
+    Pyrite		0.010316
+    O2(g)         0.048690
+    CO2		0.343450
+    Plag_75		0.023067
+    Orthoclase	0.039669
+    Epidote       0.
+    Hornblende    0.036370
+    Calcite		0.
+    Gypsum        0.140990
+	1.	millimoles
+END
