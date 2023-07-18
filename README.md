@@ -399,7 +399,7 @@ are:
   only from silicate weathering.
 
 
-Table 2. Summary of the parameters that are constant in
+**Table 2.** Summary of the parameters in
 the forward (reaction-path) weathering model.
 
 	Ratios from Fig.3, that is, from the compositional trends of the
@@ -416,17 +416,19 @@ the forward (reaction-path) weathering model.
 		(SO4*/Mg*)
 	Q = Calcite / DIC* (value set by the modeler)
 	R = Gypsum / SO4*  (value set by the modeler)
-	X = the silicate to carbonate H+ consumption ratio.
-		= ((∑Cat*/DIC*)/Q) − 2  − 2 (SO4*/DIC*) ( R / Q )
-	Z = CO2 / H2SO4, the molar ratio of carbon dioxide to sulfuric acid
-		= (1/(SO4*/DIC*)) (1 − Q) / (1  − R)
-	(MgCa/NaK)_sil = the molar ratio of (Ca+Mg)-silicates to
-		(Na+K)-silicates weathered by acid
-		= (MgCa/NaK)* − Q (DIC*/NaK*) − R (SO4*/NaK*)
-	(Ca/Mg)_sil = the ratio of Ca to Mg silicate weathered by acid.
-		= (Ca/Mg)* − Q (DIC*/Mg*) − R (SO4*/Mg*)
-	(Na/K)_sil = the ratio of Na- to K-containing silicates
-		= (Na/K)*
+
+	Derived parameters:
+		X = the silicate to carbonate H+ consumption ratio.
+			= ((∑Cat*/DIC*)/Q) − 2  − 2 (SO4*/DIC*) ( R / Q )
+		Z = CO2 / H2SO4, the molar ratio of carbon dioxide to sulfuric acid
+			= (1/(SO4*/DIC*)) (1 − Q) / (1  − R)
+		(MgCa/NaK)_sil = the molar ratio of (Ca+Mg)-silicates to
+			(Na+K)-silicates weathered by acid
+			= (MgCa/NaK)* − Q (DIC*/NaK*) − R (SO4*/NaK*)
+		(Ca/Mg)_sil = the ratio of Ca to Mg silicate weathered by acid.
+			= (Ca/Mg)* − Q (DIC*/Mg*) − R (SO4*/Mg*)
+		(Na/K)_sil = the ratio of Na- to K-containing silicates
+			= (Na/K)*
 
 
 The following model parameters vary with the progress of the reaction,
@@ -479,7 +481,7 @@ to the sum of CO<sub>2</sub> plus H<sub>2</sub>SO<sub>4</sub>:
 		H_tot = H_mins + ∑Cat* ( 1 − (Alk*/DIC*) ) / (∑Cat*/DIC*)
 
 
-Table 3. Summary of the parameters that vary when H<sup>+</sup>
+**Table 3.** Summary of variables used when H<sup>+</sup>
 is being added in the forward (reaction-path) weathering model.
 
 	∑Cat* (the sum of cation equivalents)
@@ -513,7 +515,7 @@ H<sub>2</sub>SO<sub>4</sub> and all minerals,
 may be calculated from the parameters listed above, cf. Table 4.
 
 
-Table 4. Summary of the amounts of CO<sub>2</sub>, O<sub>2</sub> and
+**Table 4.** Summary of the amounts of CO<sub>2</sub>, O<sub>2</sub> and
 minerals added in the forward (reaction-path) weathering model.
 
 	Calcite = H_mins (1-(X/(1+X)))
@@ -530,15 +532,20 @@ minerals added in the forward (reaction-path) weathering model.
 		SiO2(cr)
 		Fe(OH)3(s)
 
+### Implementation
+
+A Python script is used to run the forward reaction-path model
+described above. The script defines first the parameter values (Table 2),
+it then calculates the relative amounts of minerals,
+CO<sub>2</sub> and O<sub>2</sub> (Table 3), then it calls
+IPhreeqc ([Charlton and Parkhurst, 2011][12]), and it finally
+plots the results. The user may then easily
+confirm that different values of `Q` and `R`
+give the same results.
+
 ### Results from the forward reaction path model
 
-The forward reaction-path model described above is implemented
-into a Python script that first calculates the relative amounts
-of minerals, CO<sub>2</sub> and O<sub>2</sub>, then it calls
-IPhreeqc ([Charlton and Parkhurst, 2011][12]), and finally
-it plots the results. The user may then easily
-confirm that different values of `Q` and `R`
-give the same results. The model results are
+The model results are
 compared with the published water compositions
 in Fig.4 (a and b).
 
@@ -576,17 +583,41 @@ area and the results from the forward reaction path model.
 Symbols as in Fig.4. The dashed lines indicate the
 saturation state, _i.e._, SI equal to zero.
 
-## Overall Conclusions
+## Concluding remarks
 
+The model presented here is not in general applicable to all
+weathering situations in glacial environments.
 
+It can also be seen in Figs. 4 and 5 that the model does not even
+describe accurately _all_ glacial waters at Kangerlussuaq.
+
+The chemical diversity of the moraine porewaters, seen for example
+in the alkalinity-sulfate plot in Fig.4a, is possible due to local
+variations in the mineralogical composition of the moraine, which
+should probably be less homogeneous than the sand in the outwash plains
+deposited by the rivers in the area.
+
+Perhaps the main conclusion, the "take home message", would be that
+if considering only the chemical composition of the glacial waters,
+it might be wrong to make conclusions on the amount of CO<sub>2</sub>
+consumed by the weathering processes. The relative amount of the inorganic
+carbon originating from calcite or from carbon dioxide
+can not be established if the only source of information is
+the composition of the glacial waters.
+
+Similarly, even if Fig.4a shows a strong correlation between
+calcium and sulfate, it is not possible to conclude, based
+only on these data, that the sulfate contents of the waters
+originates only from the dissolution of either gypsum or
+[efflorescent](https://en.wikipedia.org/wiki/Efflorescence) salts.
 
 ## Credits
 
 The model has been developed through discussions between
-Ignasi Puigdomenech at [SKB](https://skb.com/),
+[Ignasi Puigdomenech](https://www.researchgate.net/profile/Ignasi-Puigdomenech-2) at [SKB](https://skb.com/),
 [Eva-Lena Tullborg](https://www.researchgate.net/profile/Eva-Lena-Tullborg)
-and the geochemical modelling group at Zaragoza University: [Luis F. Auqué](https://www.researchgate.net/profile/Luis-Auque),
-María José Gimeno and [Javier B. Gómez](https://www.researchgate.net/profile/Javier-Gomez-53)-
+(Terralogica AB), and the geochemical modelling group at Zaragoza University: [Luis F. Auqué](https://www.researchgate.net/profile/Luis-Auque),
+María José Gimeno and [Javier B. Gómez](https://www.researchgate.net/profile/Javier-Gomez-53).
 
 ## Acknowledgements
 

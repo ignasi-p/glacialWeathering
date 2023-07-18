@@ -6,16 +6,12 @@ see Charlton and Parkhurst (2011) http://dx.doi.org/10.1016/j.cageo.2011.02.005
 includes plotting of model results with the literature water compositions
 from Kangerlussuaq, Greenland.
 """
-import os # import standard library modules
 from time import time
 from win32com.client import Dispatch
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pandas as pd
 import math
-
-# path for files (databases, input and output, etc)
-datpath = "D:\\Geokemi\\Glaciations\\GAP\\Geochemistry\\Weathering Model"
 
 # -------------------------------------------------------------
 # Set values for the following two parameters and run the script
@@ -352,14 +348,13 @@ t1 = time()
 input_string = input_string_top + input_string_mid + input_string_bottom
 
 # Save the input file in case you want to run PhreeqC outside Python
-pqi = os.path.join(datpath, 'Kangerlussuaq.pqi')
+pqi = 'Kangerlussuaq.pqi'
 f = open(pqi,'w')
 f.writelines(input_string)
 f.close()
 
-# Get the results (do the calculation)
-# The results (selected_output) are in a "tuple" of tuples
-result = get_selected_output(os.path.join(datpath, 'wateq4f_3.7.3.dat'), input_string)
+# Get the results (do the calculation) - The results (selected_output) are in a "tuple" of tuples
+result = get_selected_output('wateq4f.dat', input_string)
 # Get results from the tuples into Python lists
 # The column numbers and headings are:
 # 0    1  2    3       4    5   6    7        8       9   10 11 12 13 14  15     16         17        18        19           20        21            22         23       24         25        26        27         28         29          30          31          32           33        34       35         36         37       38             39              40            41             42              43                44
@@ -385,7 +380,7 @@ zero_x = [0,5000]
 zero_y = [0,0]
 
 # the experimental data
-dta=pd.read_csv(os.path.join(datpath,'Kangerlussuaq_Data.csv'),sep=',',encoding='ANSI',decimal='.')
+dta=pd.read_csv('Kangerlussuaq_Data.csv',sep=',',encoding='ANSI',decimal='.')
 #print(dta.head())
 streams = dta[(dta['Water Type']>=6) & (dta['Water Type']<7)]
 lakes = dta[(dta['Water Type']>=7) & (dta['Water Type']<8)]
@@ -454,7 +449,7 @@ fig.legend(fontsize='small', bbox_to_anchor=(0.6,0.12), loc='lower left', border
 
 axs[1,1].axis('off')
 
-plt.savefig(os.path.join(datpath, "docs\\images\\model_fig_1.png"))
+plt.savefig("images\\model_fig_1.png")
 plt.show()
 
 # Create another figure containing two rows and two columns.
@@ -489,7 +484,7 @@ ax[1,1].axis([0, 4000, 0, 4000])
 ax[1,1].set_xlabel('Alk* ($\mu$eq/kg$\mathsf{_{H_2O}}$)')
 ax[1,1].set_ylabel('DIC*$_{exp}$ ($\mu$mol/kg$\mathsf{_{H_2O}}$)')
 
-plt.savefig(os.path.join(datpath, "docs\\images\\model_fig_2.png"))
+plt.savefig("images\\model_fig_2.png")
 plt.show()
 
 # Create another figure containing two rows and two columns.
@@ -519,7 +514,7 @@ ax[1,0].set_ylabel('SI(gypsum)')
 
 ax[1,1].remove()
 
-plt.savefig(os.path.join(datpath, "docs\\images\\model_fig_3.png"))
+plt.savefig("images\\model_fig_3.png")
 plt.show()
 
 t2 = time() - t1
