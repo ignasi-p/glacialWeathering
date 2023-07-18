@@ -1,0 +1,29 @@
+Types of data:
+    1 = groundwater
+    2= ice
+    3= supraglacial meltw
+    4= basal meltw
+    5= outlet meltw
+    6= rivers & streams
+        6.1 glacial
+        6.2 non-glacial (removed)
+        6.3 unclassified
+    7= lakes
+        7.1 dilute
+        7.2 saline
+        7.3 meltw
+        7.4 thaw
+        7.5 pond
+        7.6 moraine
+        7.7 unclassified
+    8= porewaters
+        8.1 moraine
+        8.2 wetland
+        8.3 glacio-fluvial
+    9= springs
+        9.1 pingo
+        9.2 other
+    10= precipitation
+        10.1 snow
+        10.2 rain
+    11= seawater
