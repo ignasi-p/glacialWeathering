@@ -583,6 +583,17 @@ area and the results from the forward reaction path model.
 Symbols as in Fig.4. The dashed lines indicate the
 saturation state, _i.e._, SI equal to zero.
 
+### Four examples
+
+Folder `4equivalentModels` contains four Phreeqc input files:
+  - `Q = 0` and `R = 0`
+  - `Q = 0.5` and `R = 0`
+  - `Q = 0` and `R = 0.5`
+  - `Q = 0.4` and `R = 0.4`
+
+These files may be used to check that these four models
+produce almost identical results.
+
 ## Concluding remarks
 
 The model presented here is not in general applicable to all

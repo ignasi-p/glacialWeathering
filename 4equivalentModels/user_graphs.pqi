@@ -1,0 +1,40 @@
+USER_GRAPH 1 SO4-Ca
+  -plot_tsv_file SO4-Ca.tsv
+  -chart_title "Chemical weathering at Kangerlussuaq"
+  -headings model
+  -axis_titles "[SO4-2]* (umol/L)" "[Ca+2]* (umol/L)"
+  -axis_scale x_axis	0 1500 500
+  -axis_scale y_axis	0 1500 500
+  -start
+10 PLOT_XY TOT("S(6)")*1e6,TOT("Ca")*1e6, color = Black, symbol = Plus, line_width = 1, symbol_size=0
+  -end
+USER_GRAPH 2 SO4-Alk
+  -plot_tsv_file SO4-Alk.tsv
+  -chart_title "Chemical weathering at Kangerlussuaq"
+  -headings model
+  -axis_titles "[SO4-2]* (ueq/L)" "Alk* (ueq/L)"
+  -axis_scale x_axis	0 3000 1000
+  -axis_scale y_axis	0 3000 1000
+  -start
+10 PLOT_XY TOT("S(6)")*1e6,ALK*1e6, color = Black, symbol = Plus, line_width = 1, symbol_size=0
+  -end
+USER_GRAPH 3 Mg+Ca-Na+K
+  -plot_tsv_file Mg+Ca-Na+K.tsv
+  -chart_title "Chemical weathering at Kangerlussuaq"
+  -headings model
+  -axis_titles "[Na+K]* (umol/L)" "[Mg+Ca]* (ueq/L)"
+  -axis_scale x_axis	1 10000 auto auto log
+  -axis_scale y_axis	1 1000 auto auto log
+  -start
+10 PLOT_XY (TOT("Mg")+TOT("Ca"))*1e6,(TOT("Na")+TOT("K"))*1e6, color = Black, symbol = Plus, line_width = 1, symbol_size=0
+  -end
+USER_GRAPH 4 Alk-logPCO2
+  -plot_tsv_file Alk-logPCO2.tsv
+  -chart_title "Chemical weathering at Kangerlussuaq"
+  -headings model
+  -axis_titles "Alk* (ueq/L)" "logPCO2" 
+  -axis_scale x_axis	0 3000 1000
+  -axis_scale y_axis	-7 -1 2
+  -start
+10 PLOT_XY ALK*1e6, SI("CO2(g)"), color = Black, symbol = Plus, line_width = 1, symbol_size=0
+  -end
